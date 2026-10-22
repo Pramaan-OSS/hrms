@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Install this app and build the frontends from prepared dependencies.
+set -euo pipefail
+root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$root"
+export PATH="$root/.tools/nodebin/bin:$PATH"
+uv pip install --python .venv/bin/python --no-deps -e .
+.venv/bin/python docker/patch-framework.py
+yarn build

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+@import url("/assets/hrms/fonts/print-fonts.css");
+{% set local_fonts = ['Inter', 'Noto Sans', 'DejaVu Sans', 'Liberation Sans'] %}
+{% set family = print_format.font if print_format.font in local_fonts else 'Inter' %}
+html, body {
+    font-family: "{{ family }}", "Inter", sans-serif;
+}

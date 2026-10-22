@@ -1,0 +1,177 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:ASSESS-{#####}",
+ "creation": "2026-10-16 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "job_opening",
+  "title",
+  "status",
+  "column_break_main",
+  "exam_ref",
+  "platform_status",
+  "settings_section",
+  "description",
+  "duration_minutes",
+  "pass_score",
+  "column_break_settings",
+  "proctoring_profile",
+  "questions_section",
+  "questions",
+  "sync_section",
+  "last_synced_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "job_opening",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Job Opening",
+   "options": "Job Opening",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPublished",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Set when the exam is first created on the platform",
+   "fieldname": "exam_ref",
+   "fieldtype": "Data",
+   "label": "Exam Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "platform_status",
+   "fieldtype": "Data",
+   "label": "Platform Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "settings_section",
+   "fieldtype": "Section Break",
+   "label": "Exam Settings"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "default": "30",
+   "fieldname": "duration_minutes",
+   "fieldtype": "Int",
+   "label": "Duration (Minutes)",
+   "reqd": 1
+  },
+  {
+   "default": "60",
+   "fieldname": "pass_score",
+   "fieldtype": "Percent",
+   "label": "Pass Score (%)"
+  },
+  {
+   "fieldname": "column_break_settings",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "observe",
+   "description": "Publishing freezes the questions; this cannot be undone",
+   "fieldname": "proctoring_profile",
+   "fieldtype": "Select",
+   "label": "Proctoring Profile",
+   "options": "observe\nrecord\nverify\nsecure"
+  },
+  {
+   "fieldname": "questions_section",
+   "fieldtype": "Section Break",
+   "label": "Questions"
+  },
+  {
+   "fieldname": "questions",
+   "fieldtype": "Table",
+   "label": "Questions",
+   "options": "Assessment Question"
+  },
+  {
+   "fieldname": "sync_section",
+   "fieldtype": "Section Break",
+   "label": "Sync"
+  },
+  {
+   "fieldname": "last_synced_on",
+   "fieldtype": "Datetime",
+   "label": "Last Synced",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Assessment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

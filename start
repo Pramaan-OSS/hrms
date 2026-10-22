@@ -1,0 +1,50 @@
+#!/bin/sh
+set -eu
+umask 077
+cd "$(dirname "$0")"
+case "${1:---production}" in
+  --production) export HRMS_RUN_MODE=production ;;
+  --dev) export HRMS_RUN_MODE=development ;;
+  *) printf '%s\n' 'Run ./start for production, or ./start --dev for development.'; exit 1 ;;
+esac
+mkdir -p .runtime
+compose() { docker compose --env-file .env -f docker/docker-compose.yml "$@"; }
+bootstrap() { docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/workspace" -w /workspace python:3.14-slim python scripts/local-config.py "$@"; }
+bootstrap
+port=$(bootstrap --print-port)
+container=$(compose ps -q app)
+running=false
+if [ -n "$container" ]; then running=$(docker inspect -f '{{.State.Running}}' "$container"); fi
+if [ "$running" != true ]; then
+  attempts=0
+  while ! probe=$(docker run --rm --detach -p "$port:8000" python:3.14-slim python -c 'import time; time.sleep(600)' 2>>.runtime/ports.log); do
+    port=$((port + 1)); attempts=$((attempts + 1))
+    if [ "$attempts" -ge 50 ]; then printf '%s\n' 'No local port is available. Stop an unused service and run ./start again.'; exit 1; fi
+  done
+  docker stop -t 0 "$probe" >/dev/null
+fi
+bootstrap --port "$port"
+ready() {
+  service=$1
+  attempts=0
+  while [ "$attempts" -lt 300 ]; do
+    instance=$(compose ps -a -q "$service")
+    state=""
+    if [ -n "$instance" ]; then
+      state=$(docker inspect -f '{{.State.Status}}/{{if .State.Health}}{{.State.Health.Status}}{{end}}' "$instance")
+    fi
+    case "$state" in
+      running/healthy) return 0 ;;
+      exited/*|dead/*) return 1 ;;
+    esac
+    attempts=$((attempts + 1))
+    sleep 2
+  done
+  return 1
+}
+if ! compose up --build --detach app > .runtime/start.log 2>&1 || ! ready app \
+  || ! compose up --detach web >> .runtime/start.log 2>&1 || ! ready web; then
+  printf '%s\n' 'Startup did not complete. See .runtime/start.log and docker compose --env-file .env -f docker/docker-compose.yml logs.'
+  exit 1
+fi
+printf 'HRMS is running at http://localhost:%s. Sign in as Administrator; the password is in .runtime/local-admin-password.\n' "$port"

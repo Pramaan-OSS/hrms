@@ -1,0 +1,17 @@
+.git
+.env
+.env.*
+!.env.example
+.runtime
+.scratch
+.venv
+.tools
+vendor
+**/node_modules
+**/__pycache__
+**/*.pyc
+hrms/public/dist
+hrms/public/frontend
+hrms/public/roster
+hrms/www/hrms.html
+hrms/www/roster.html

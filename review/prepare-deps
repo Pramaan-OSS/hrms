@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Prepare local dependencies only. Never downloads anything at app runtime.
+set -euo pipefail
+root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$root"
+export PATH="$root/.tools/nodebin/bin:$PATH"
+command -v uv >/dev/null
+command -v node >/dev/null
+command -v yarn >/dev/null
+node -e 'if (Number(process.versions.node.split(".")[0]) < 22) throw new Error("Node 22 or newer is required.")'
+
+mkdir -p vendor
+if [ ! -d vendor/framework/.git ]; then
+  git init -q vendor/framework
+  git -C vendor/framework remote add origin https://github.com/frappe/frappe.git
+  git -C vendor/framework fetch --depth 1 origin 4f5ca6e6f3e2c0c4c3000b0d1ae78a91b61d2a38
+fi
+git -C vendor/framework checkout --detach 4f5ca6e6f3e2c0c4c3000b0d1ae78a91b61d2a38
+
+if [ ! -d vendor/erp/.git ]; then
+  git init -q vendor/erp
+  git -C vendor/erp remote add origin https://github.com/frappe/erpnext.git
+  git -C vendor/erp fetch --depth 1 origin 8d60c082960de0934311021c9b8adf281b02e66c
+fi
+git -C vendor/erp checkout --detach 8d60c082960de0934311021c9b8adf281b02e66c
+
+uv venv --python 3.14 .venv
+uv pip install --python .venv/bin/python -e vendor/framework
+
+# The ERP base app's own library dependencies, taken from its pinned source.
+# Some of its doctype modules import their client packages at load time, so the
+# prepared runtime carries them even though this app's own code never calls
+# them; every call this app makes goes through the single client.
+erp_deps="$(awk '/^dependencies = \[/{flag=1;next}/^\]/{flag=0}flag' vendor/erp/pyproject.toml \
+  | grep -o '"[^"]*"' | tr -d '"' \
+  | grep -v -e '^#' -e 'frappe' || true)"
+if [ -n "$erp_deps" ]; then
+  # shellcheck disable=SC2086
+  uv pip install --python .venv/bin/python $erp_deps
+fi
+
+uv pip install --python .venv/bin/python --no-deps -e vendor/erp
+
+# The framework and the ERP base app carry the desk's buildable bundles.
+yarn --cwd vendor/framework install --check-files
+yarn --cwd vendor/erp install --check-files
+
+mkdir -p .runtime/socket
+cp scripts/socket/package.json scripts/socket/package-lock.json .runtime/socket/
+npm --prefix .runtime/socket ci --no-audit --no-fund
+
+yarn install --check-files
