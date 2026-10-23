@@ -65,8 +65,8 @@ class TestSalaryStructure(HRMSTestSuite):
 
 	def test_whitespaces_in_formula_conditions_fields(self):
 		def add_whitespaces(row):
-			row.formula = "\n%s\n\n" % row.formula
-			row.condition = "\n%s\n\n" % row.condition
+			row.formula = f"\n{row.formula}\n\n"
+			row.condition = f"\n{row.condition}\n\n"
 
 		salary_structure = make_salary_structure(
 			"Salary Structure Sample", "Monthly", dont_submit=True, company="_Test Company"

@@ -7,11 +7,11 @@ interface never shows a provider name, a price or a provider id.
 from functools import wraps
 
 from hrms.pramaan import (
-    ConnectionRequired,
-    OrganizationNameRequired,
-    MissingPramaanKey,
-    PramaanError,
-    PramaanNotAvailable,
+	ConnectionRequired,
+	MissingPramaanKey,
+	OrganizationNameRequired,
+	PramaanError,
+	PramaanNotAvailable,
 )
 
 UNCERTAIN_MESSAGE = (

@@ -6,4 +6,4 @@ cd "$root"
 export PATH="$root/.tools/nodebin/bin:$PATH"
 uv pip install --python .venv/bin/python --no-deps -e .
 .venv/bin/python docker/patch-framework.py
-yarn build
+npm run build

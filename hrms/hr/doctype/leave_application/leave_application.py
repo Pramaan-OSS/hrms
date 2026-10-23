@@ -27,7 +27,6 @@ from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employe
 import hrms
 from hrms.api import get_current_employee_info
 from hrms.hr.doctype.leave_block_list.leave_block_list import get_applicable_block_dates
-from hrms.integrations.pramaan_mail import sendmail
 from hrms.hr.doctype.leave_ledger_entry.leave_ledger_entry import create_leave_ledger_entry
 from hrms.hr.utils import (
 	get_holiday_dates_for_employee,
@@ -36,6 +35,7 @@ from hrms.hr.utils import (
 	share_doc_with_approver,
 	validate_active_employee,
 )
+from hrms.integrations.pramaan_mail import sendmail
 from hrms.mixins.pwa_notifications import PWANotificationsMixin
 from hrms.utils import get_employee_email
 from hrms.utils.holiday_list import get_holiday_dates_between_range
@@ -1449,7 +1449,7 @@ def get_holidays(
 def is_lwp(leave_type):
 	LeaveType = frappe.qb.DocType("Leave Type")
 	lwp = (frappe.qb.from_(LeaveType).select(LeaveType.is_lwp).where(LeaveType.name == leave_type)).run()
-	return lwp and cint(lwp[0][0]) or 0
+	return (lwp and cint(lwp[0][0])) or 0
 
 
 @frappe.whitelist()

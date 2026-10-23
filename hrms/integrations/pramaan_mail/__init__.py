@@ -52,7 +52,7 @@ def _wrap(message, header):
 
 
 def _addresses(value):
-	values = value if isinstance(value, (list, tuple)) else [value or ""]
+	values = value if isinstance(value, list | tuple) else [value or ""]
 	return list(dict.fromkeys(address for _, address in getaddresses(values) if address))
 
 

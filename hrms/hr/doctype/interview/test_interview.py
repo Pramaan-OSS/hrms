@@ -20,8 +20,7 @@ from hrms.hr.doctype.interview.interview import (
 )
 from hrms.hr.doctype.job_applicant.job_applicant import get_interview_details
 from hrms.tests.test_utils import create_job_applicant
-from hrms.tests.utils import record_pramaan_mails
-from hrms.tests.utils import HRMSTestSuite
+from hrms.tests.utils import HRMSTestSuite, record_pramaan_mails
 
 
 class TestInterview(HRMSTestSuite):

@@ -10,6 +10,8 @@ class ClientTests(unittest.TestCase):
         from urllib.error import HTTPError
         payload = io.BytesIO(json.dumps({"error": {"code": "invalid_request", "message": "Set your organisation's name first (PUT /v1/organization)."}}).encode())
         client = boundary.PramaanClient(api_key="fixture", base_url="https://pramaan.test")
+        # The HTTP decoder is exercised only through the mocked opener.
+        client._transport = client._http
         with patch.object(boundary, "build_opener") as opener:
             opener.return_value.open.side_effect = HTTPError("https://pramaan.test", 400, "bad request", {}, payload)
             with self.assertRaises(boundary.OrganizationNameRequired) as raised:
@@ -79,6 +81,8 @@ class ClientTests(unittest.TestCase):
         from urllib.error import HTTPError
         payload = io.BytesIO(json.dumps({"error": {"code": "upstream_unavailable", "message": "private upstream diagnostics"}}).encode())
         client = boundary.PramaanClient(api_key="fake", base_url="https://pramaan.test")
+        # The HTTP decoder is exercised only through the mocked opener.
+        client._transport = client._http
         with patch.object(boundary, "build_opener") as opener:
             opener.return_value.open.side_effect = HTTPError("https://pramaan.test", 502, "unavailable", {}, payload)
             with self.assertRaises(boundary.PramaanNotAvailable) as raised:

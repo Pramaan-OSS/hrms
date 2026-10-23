@@ -2,13 +2,13 @@
 # For license information, please see license.txt
 
 import frappe
-
-from hrms.integrations.pramaan_mail import sendmail
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import get_link_to_form
 
 from erpnext.setup.doctype.employee.employee import get_employee_email
+
+from hrms.integrations.pramaan_mail import sendmail
 
 
 class ExitInterview(Document):

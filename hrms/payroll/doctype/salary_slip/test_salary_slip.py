@@ -48,8 +48,7 @@ from hrms.payroll.doctype.salary_slip.salary_slip import (
 )
 from hrms.payroll.doctype.salary_structure.salary_structure import make_salary_slip
 from hrms.tests.test_utils import add_date_to_holiday_list, get_first_sunday
-from hrms.tests.utils import record_pramaan_mails
-from hrms.tests.utils import HRMSTestSuite
+from hrms.tests.utils import HRMSTestSuite, record_pramaan_mails
 
 
 class TestSalarySlip(HRMSTestSuite):
@@ -1287,7 +1286,7 @@ class TestSalarySlip(HRMSTestSuite):
 
 	def test_payroll_frequency(self):
 		fiscal_year = get_fiscal_year(nowdate(), company="_Test Company")[0]
-		month = "%02d" % getdate(nowdate()).month
+		month = f"{getdate(nowdate()).month:02d}"
 		m = get_month_details(fiscal_year, month)
 
 		for payroll_frequency in ["Monthly", "Bimonthly", "Fortnightly", "Weekly", "Daily"]:

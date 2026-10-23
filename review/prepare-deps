@@ -49,4 +49,4 @@ mkdir -p .runtime/socket
 cp scripts/socket/package.json scripts/socket/package-lock.json .runtime/socket/
 npm --prefix .runtime/socket ci --no-audit --no-fund
 
-yarn install --check-files
+npm ci --ignore-scripts --no-audit --no-fund

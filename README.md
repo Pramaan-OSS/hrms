@@ -1,3 +1,5 @@
+[![CI](https://github.com/Pramaan-OSS/hrms/actions/workflows/ci.yml/badge.svg)](https://github.com/Pramaan-OSS/hrms/actions/workflows/ci.yml)
+
 # HRMS
 
 Everyday HR and payroll: employees, attendance and shifts, leave, expenses,

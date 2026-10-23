@@ -11,8 +11,7 @@ from hrms.hr.doctype.leave_type.test_leave_type import create_leave_type
 from hrms.payroll.doctype.salary_slip.test_salary_slip import (
 	make_leave_application,
 )
-from hrms.tests.test_utils import make_date_working_day
-from hrms.tests.test_utils import add_date_to_holiday_list, get_first_sunday
+from hrms.tests.test_utils import add_date_to_holiday_list, get_first_sunday, make_date_working_day
 from hrms.tests.utils import HRMSTestSuite
 
 

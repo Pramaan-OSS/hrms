@@ -207,8 +207,8 @@ class StaffingPlan(Document):
 		)[0]
 
 		if (
-			children_details
-			and cint(staffing_plan_detail.vacancies) < cint(children_details.vacancies)
+			(children_details
+			and cint(staffing_plan_detail.vacancies) < cint(children_details.vacancies))
 			or flt(staffing_plan_detail.total_estimated_cost) < flt(children_details.total_estimated_cost)
 		):
 			frappe.throw(

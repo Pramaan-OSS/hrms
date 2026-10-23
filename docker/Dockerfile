@@ -5,7 +5,7 @@ RUN chromium --version && fc-match sans
 COPY --from=installer /uv /uvx /usr/local/bin/
 WORKDIR /app
 COPY review/prepare-deps review/prepare-build review/
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json yarn.lock ./
 COPY scripts/socket scripts/socket/
 COPY frontend/package.json frontend/
 COPY roster/package.json roster/

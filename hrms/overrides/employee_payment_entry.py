@@ -13,9 +13,9 @@ from erpnext.accounts.doctype.payment_entry.payment_entry import (
 	get_reference_details,
 )
 from erpnext.accounts.utils import get_account_currency
-from hrms.integrations.pramaan_currency import get_exchange_rate
 
 from hrms.hr.doctype.expense_claim.expense_claim import get_outstanding_amount_for_claim
+from hrms.integrations.pramaan_currency import get_exchange_rate
 
 
 class EmployeePaymentEntry(PaymentEntry):

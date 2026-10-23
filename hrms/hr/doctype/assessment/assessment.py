@@ -155,7 +155,7 @@ def send_assessment(applicant: str) -> dict:
 		)
 
 	if existing:
-		invitation = client.call("assessment.invitation.get", {"ref": existing})
+		client.call("assessment.invitation.get", {"ref": existing})
 		link = None
 		doc.db_set("assessment_invitation_ref", existing)
 	else:

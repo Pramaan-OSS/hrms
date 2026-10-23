@@ -1,6 +1,6 @@
 """Print fonts are immutable image assets, never fetched while rendering."""
-from pathlib import Path
 import json
+from pathlib import Path
 
 FONT_ROOT = Path('/app/hrms/public/fonts')
 FAMILIES = ('Inter', 'Noto Sans', 'DejaVu Sans', 'Liberation Sans')

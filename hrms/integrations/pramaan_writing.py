@@ -5,7 +5,6 @@ from frappe import _
 
 from hrms.integrations.pramaan_common import get_client, respond
 
-
 SYSTEM_PROMPT = (
 	"You are an assistant inside a human-resources product. Write clear, plain, "
 	"professional text. Follow every instruction from the user. Reply with the "

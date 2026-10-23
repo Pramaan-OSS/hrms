@@ -5,14 +5,11 @@
   "author": "HRMS contributors",
   "license": "AGPL-3.0",
   "scripts": {
-    "postinstall": "yarn install-pwa-deps && yarn install-roster-deps",
-    "install-pwa-deps": "cd frontend && yarn install --check-files",
-    "install-roster-deps": "cd roster && yarn install --check-files",
-    "dev-pwa": "cd frontend && yarn dev",
-    "dev-roster": "cd roster && yarn dev",
-    "build": "yarn build-pwa && yarn build-roster",
-    "build-pwa": "cd frontend && yarn build",
-    "build-roster": "cd roster && yarn build"
+    "dev-pwa": "npm --workspace frontend run dev",
+    "dev-roster": "npm --workspace roster run dev",
+    "build": "npm run build-pwa && npm run build-roster",
+    "build-pwa": "npm --workspace frontend run build",
+    "build-roster": "npm --workspace roster run build"
   },
   "dependencies": {
     "html2canvas": "^1.4.1"

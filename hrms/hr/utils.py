@@ -35,10 +35,10 @@ import erpnext
 from erpnext import get_company_currency
 from erpnext.setup.doctype.employee.employee import InactiveEmployeeStatusError
 
-from hrms.integrations.pramaan_mail import sendmail
 from hrms.hr.doctype.leave_policy_assignment.leave_policy_assignment import (
 	calculate_pro_rated_leaves,
 )
+from hrms.integrations.pramaan_mail import sendmail
 
 DateTimeLikeObject = str | datetime.date | datetime.datetime
 

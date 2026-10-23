@@ -66,8 +66,9 @@ class TestScheduledMail(IntegrationTestCase):
 		self.assertEqual(self.requests, [])
 
 	def test_undo_removes_queued_message_before_any_external_effect(self):
-		from hrms.integrations.pramaan_mail.composer import make
 		from frappe.core.doctype.communication.email import undo_email_send
+
+		from hrms.integrations.pramaan_mail.composer import make
 		result = make(recipients="qa@example.test", subject="QA undo " + frappe.generate_hash(),
 			content="Synthetic local message", send_email=True)
 		undo_email_send(result["name"])
