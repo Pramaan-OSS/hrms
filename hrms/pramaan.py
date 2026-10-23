@@ -374,7 +374,7 @@ class PramaanClient:
 
     @property
     def configured(self):
-        return bool(self._api_key.strip())
+        return self._transport == self._fake or bool(self._api_key.strip())
 
     def require_configured(self):
         if not self.configured:

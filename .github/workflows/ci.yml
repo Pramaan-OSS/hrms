@@ -87,6 +87,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t hrms-ci -f docker/Dockerfile .
-      - run: docker run --rm --network "$CI_NETWORK" -e PRAMAAN_API_KEY -e PRAMAAN_FAKE -e DO_NOT_TRACK -e NEXT_TELEMETRY_DISABLED -e HRMS_SITE_NAME=ci.localhost -e LOCAL_DB_PASSWORD=ci-only -e HRMS_ADMIN_PASSWORD=ci-only -e HRMS_ENCRYPTION_KEY=Y2ktb25seS1lbmNyeXB0aW9uLWtleS0wMTIzNDU2Nzg= hrms-ci bash review/ci-site-tests
+      - run: docker run --rm --network "$CI_NETWORK" -e PRAMAAN_API_KEY -e PRAMAAN_FAKE -e DO_NOT_TRACK -e NEXT_TELEMETRY_DISABLED -e FRAPPE_BENCH_ROOT=/app/.runtime/bench -e HRMS_SITE_NAME=ci.localhost -e LOCAL_DB_PASSWORD=ci-only -e HRMS_ADMIN_PASSWORD=ci-only -e HRMS_ENCRYPTION_KEY=Y2ktb25seS1lbmNyeXB0aW9uLWtleS0wMTIzNDU2Nzg= hrms-ci bash review/ci-site-tests
         env:
           CI_NETWORK: ${{ job.services.database.network }}

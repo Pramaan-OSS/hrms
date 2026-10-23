@@ -95,10 +95,18 @@ class MailBoundaryTests(unittest.TestCase):
 
     def test_missing_key_uses_the_framework_mail_error_with_setup_instructions(self):
         from hrms.pramaan import PramaanClient
-        self.mail._client = lambda: PramaanClient(api_key="")
+        self.mail._client = lambda: PramaanClient(api_key="", transport=lambda *args: self.fail("Missing key reached transport"))
         with self.assertRaisesRegex(ValueError, "Add PRAMAAN_API_KEY"):
             self.send(message="Notice")
         self.assertEqual(self.requests, [])
+
+    def test_fake_mail_needs_no_key_and_never_uses_http(self):
+        import os
+        with patch.dict(os.environ, {"PRAMAAN_FAKE": "1", "PRAMAAN_API_KEY": ""}):
+            self.mail._client = boundary.PramaanClient
+            with patch.object(boundary, "build_opener", side_effect=AssertionError("Network used")):
+                result = self.send(message="Notice")
+        self.assertIsInstance(result, dict)
 
     def test_sender_must_be_configured_before_sending(self):
         self.frappe.db.get_single_value = lambda *args: ""
