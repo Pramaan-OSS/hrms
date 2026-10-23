@@ -639,10 +639,19 @@ class TestExpenseClaim(HRMSTestSuite):
 		make_employee(user, "_Test Company")
 		frappe.get_doc("User", user).add_roles("Expense Approver")
 
+		# Use a different employee so the approver needs an explicit share.
+		claimant = make_employee("test_claimant_perm_emp@example.com", "_Test Company")
+
 		# check doc shared
 		payable_account = get_payable_account("_Test Company")
 		expense_claim = make_expense_claim(
-			payable_account, 300, 200, "_Test Company", "Travel Expenses - _TC", do_not_submit=True
+			payable_account,
+			300,
+			200,
+			"_Test Company",
+			"Travel Expenses - _TC",
+			do_not_submit=True,
+			employee=claimant,
 		)
 		expense_claim.expense_approver = user
 		expense_claim.save()
